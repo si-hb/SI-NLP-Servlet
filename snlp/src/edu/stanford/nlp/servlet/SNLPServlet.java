@@ -13,6 +13,16 @@ public class SNLPServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -6526362765621762054L;
+	
+	 public void init(ServletConfig config) throws ServletException {
+            super.init(config);
+            
+            try {
+            	// Does something
+            } catch(Exception es) {
+            	es.printStackTrace();
+            }
+     }
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		// Verify parameters
@@ -27,7 +37,6 @@ public class SNLPServlet extends HttpServlet {
 
 		String sentence = request.getParameter("sentence");
 		if (sentence == null || sentence == "") sentence = "I look forward to hearing from you.";
-		String filename = "E:\\shorts\\servlet\\stanford-parser-2012-05-22\\data\\testsent.txt";
 
 		// Return parsing result
 		response.setContentType("text/html");
@@ -83,20 +92,21 @@ public class SNLPServlet extends HttpServlet {
 		out.println("</form>");
 		out.println("<br />");
 		
-		//if (noParams == false) {
-			out.println("<h4>Result : </h4>");
-			out.println("<pre>");
-			
-			// Run Lexical Parser
-			//command = command + filename;
-			String root_path = request.getRealPath("WEB-INF\\classes").replace('\\', '/') + "/";
-			String[] args = command.split(" ");
-			LexicalizedParser.web_main(args, sentence, out, root_path);
-			//LexicalizedParser.main(args);
-			
-			// End response
-			out.println("</pre>");
-		//}
+		out.println("<h4>Result : </h4>");
+		out.println("<pre>");
+		
+		long start = System.currentTimeMillis();
+
+		// Run Lexical Parser
+		String root_path = request.getRealPath("WEB-INF\\classes").replace('\\', '/') + "/";
+		String[] args = command.split(" ");
+		LexicalizedParser.web_main(args, sentence, out, root_path);
+		
+		// End response
+		out.println("</pre>");
+		
+		long elapsedTimeMillis = System.currentTimeMillis() - start;
+		out.println("<br />Elapsed Time(ms) : " + Long.toString(elapsedTimeMillis));
 		
 		out.println("</body>");
 		out.println("</html>");

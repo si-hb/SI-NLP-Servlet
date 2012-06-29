@@ -12,6 +12,7 @@
   <servlet>
     <servlet-name>SNLPServlet</servlet-name>
     <servlet-class>edu.stanford.nlp.servlet.SNLPServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>SNLPServlet</servlet-name>
